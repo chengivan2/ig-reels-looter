@@ -43,12 +43,12 @@ export default function Home() {
 
   const handleDownload = () => {
     if (!videoUrl) return;
-    const a = document.createElement("a");
-    a.href = videoUrl;
-    a.download = "ig-reel.mp4";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+
+    // Using window.location.href to navigate to the proxy URL
+    // The proxy endpoint forces the 'Content-Disposition: attachment' header,
+    // which tells the browser to download the file directly instead of navigating away.
+    const proxyUrl = `/api/proxy?url=${encodeURIComponent(videoUrl)}`;
+    window.location.href = proxyUrl;
   };
 
   return (
