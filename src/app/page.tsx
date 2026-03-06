@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
@@ -95,14 +95,23 @@ export default function Home() {
                   <p className="font-bold tracking-wide text-sm sm:text-lg animate-pulse">getting your reel for you</p>
                 </div>
               ) : (
-                <input
-                  type="url"
-                  placeholder="enter your url..."
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  className="w-full h-full bg-transparent border-none outline-none text-white placeholder:text-white/70 text-center text-lg sm:text-2xl font-bold tracking-wide"
-                  required
-                />
+                <div className="flex w-full h-full relative items-center">
+                  <input
+                    type="url"
+                    placeholder="enter your url..."
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    className="w-full h-full bg-transparent border-none outline-none text-white placeholder:text-white/70 text-center text-lg sm:text-2xl font-bold tracking-wide pr-14 sm:pr-20"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-1 sm:right-2 p-2 sm:p-3 bg-[#000000] hover:bg-white/30 rounded-xl text-white transition-colors active:scale-95 flex items-center justify-center"
+                    aria-label="Download Reel"
+                  >
+                    <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -141,12 +150,12 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full max-w-md mx-auto mt-20 pb-8 text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
-        <Image 
-          src="/logos/ig-reels-looter.png" 
-          alt="IG Reels Looter Logo" 
-          width={48} 
-          height={48} 
-          className="mx-auto w-10 h-10 sm:w-12 sm:h-12 object-contain grayscale hover:grayscale-0 transition-all duration-300 drop-shadow-md" 
+        <Image
+          src="/logos/ig-reels-looter.png"
+          alt="IG Reels Looter Logo"
+          width={48}
+          height={48}
+          className="mx-auto w-10 h-10 sm:w-12 sm:h-12 object-contain grayscale hover:grayscale-0 transition-all duration-300 drop-shadow-md"
         />
         <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-medium mt-3">
           © {new Date().getFullYear()} IG Looter. All rights reserved.
