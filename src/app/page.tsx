@@ -151,6 +151,9 @@ export default function Home() {
         <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-medium mt-3">
           © {new Date().getFullYear()} IG Looter. All rights reserved.
         </p>
+        <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-medium mt-1">
+          Made with ❤️ by <a href="https://ivanthedev.pro" target="_blank" rel="noopener noreferrer" className="text-pink-500 hover:text-pink-400 font-bold transition-colors">Ivan the Dev</a>
+        </p>
       </footer>
     </main>
   );
