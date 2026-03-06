@@ -7,4 +7,5 @@ declare module "lucide-react" {
     export const Download: FC<IconProps>;
     export const Instagram: FC<IconProps>;
     export const Loader2: FC<IconProps>;
+    export const ArrowRight: FC<IconProps>;
 }
