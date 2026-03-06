@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Download, Instagram, Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   const [url, setUrl] = useState("");
@@ -56,8 +57,15 @@ export default function Home() {
       <div className="w-full max-w-md mx-auto space-y-12">
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-gradient-to-tr from-yellow-400 via-red-500 to-fuchsia-600 mb-2 sm:mb-4 shadow-lg shadow-pink-500/20">
-            <Instagram className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+          <div className="inline-flex items-center justify-center mb-2 sm:mb-4 drop-shadow-xl hover:scale-105 transition-transform">
+            <Image
+              src="/logos/ig-reels-looter.png"
+              alt="IG Reels Looter Logo"
+              width={96}
+              height={96}
+              className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+              priority
+            />
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-600">
             IG Looter
@@ -130,6 +138,20 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="w-full max-w-md mx-auto mt-20 pb-8 text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
+        <Image 
+          src="/logos/ig-reels-looter.png" 
+          alt="IG Reels Looter Logo" 
+          width={48} 
+          height={48} 
+          className="mx-auto w-10 h-10 sm:w-12 sm:h-12 object-contain grayscale hover:grayscale-0 transition-all duration-300 drop-shadow-md" 
+        />
+        <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-medium mt-3">
+          © {new Date().getFullYear()} IG Looter. All rights reserved.
+        </p>
+      </footer>
     </main>
   );
 }
