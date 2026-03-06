@@ -67,7 +67,7 @@ export default function Home() {
               priority
             />
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-600">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-linear-to-r from-yellow-500 via-pink-500 to-purple-600">
             IG Looter
           </h1>
           <p className="text-neutral-500 dark:text-neutral-400 text-sm sm:text-base font-medium">
@@ -127,7 +127,7 @@ export default function Home() {
         {/* Result view */}
         {videoUrl && !isLoading && (
           <div className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
-            <div className="relative aspect-[9/16] w-full max-w-[280px] sm:max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-black group">
+            <div className="relative aspect-9/16 w-full max-w-70 sm:max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-black group">
               <video
                 src={videoUrl}
                 controls
@@ -139,7 +139,7 @@ export default function Home() {
 
             <button
               onClick={handleDownload}
-              className="w-full py-3 sm:py-4 px-6 rounded-2xl bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-600 text-white font-bold text-base sm:text-lg flex items-center justify-center space-x-2 sm:space-x-3 hover:opacity-90 transition-opacity active:scale-[0.98] shadow-lg shadow-pink-500/25"
+              className="w-full py-3 sm:py-4 px-6 rounded-2xl bg-linear-to-r from-yellow-500 via-pink-500 to-purple-600 text-white font-bold text-base sm:text-lg flex items-center justify-center space-x-2 sm:space-x-3 hover:opacity-90 transition-opacity active:scale-[0.98] shadow-lg shadow-pink-500/25"
             >
               <Download className="w-5 h-5 sm:w-6 sm:h-6" />
               <span>Download Video</span>
