@@ -1,65 +1,135 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Download, Instagram, Loader2 } from "lucide-react";
 
 export default function Home() {
+  const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!url.trim()) return;
+
+    setIsLoading(true);
+    setError("");
+    setVideoUrl("");
+
+    try {
+      const response = await fetch("/api/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch reel");
+      }
+
+      const data = await response.json();
+      if (data.videoUrl) {
+        setVideoUrl(data.videoUrl);
+      } else {
+        throw new Error("Video URL not found in response");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!videoUrl) return;
+    const a = document.createElement("a");
+    a.href = videoUrl;
+    a.download = "ig-reel.mp4";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-[#fafafa] dark:bg-[#121212] flex flex-col items-center justify-center p-4 selection:bg-pink-500/30">
+      <div className="w-full max-w-md mx-auto space-y-12">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-gradient-to-tr from-yellow-400 via-red-500 to-fuchsia-600 mb-2 sm:mb-4 shadow-lg shadow-pink-500/20">
+            <Instagram className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-600">
+            IG Looter
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm sm:text-base font-medium">
+            Download your favorite reels in seconds
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Form area */}
+        <form onSubmit={handleSubmit} className="relative flex flex-col items-center justify-center h-48 sm:h-56">
+          <div
+            className={`
+              absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.87,0,0.13,1)]
+              bg-ig-gradient flex items-center justify-center p-1 sm:p-2 overflow-hidden shadow-2xl shadow-pink-500/30
+              ${isLoading ? "animate-liquid animate-gradient-shift scale-110 sm:scale-125" : "rounded-3xl hover:scale-105 active:scale-95"}
+            `}
+            style={{
+              borderRadius: isLoading ? undefined : "30px",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            {/* Input field wrapper */}
+            <div className="relative w-full h-full bg-white/10 dark:bg-black/20 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 rounded-[inherit]">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center space-y-3 text-white">
+                  <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin" />
+                  <p className="font-bold tracking-wide text-sm sm:text-lg animate-pulse">getting your reel for you</p>
+                </div>
+              ) : (
+                <input
+                  type="url"
+                  placeholder="enter your url..."
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="w-full h-full bg-transparent border-none outline-none text-white placeholder:text-white/70 text-center text-lg sm:text-2xl font-bold tracking-wide"
+                  required
+                />
+              )}
+            </div>
+          </div>
+        </form>
+
+        {/* Error message */}
+        {error && (
+          <div className="p-4 bg-red-50 text-red-600 dark:bg-red-950/50 dark:text-red-400 rounded-2xl text-center text-sm font-medium border border-red-100 dark:border-red-900/50">
+            {error}
+          </div>
+        )}
+
+        {/* Result view */}
+        {videoUrl && !isLoading && (
+          <div className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
+            <div className="relative aspect-[9/16] w-full max-w-[280px] sm:max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-black group">
+              <video
+                src={videoUrl}
+                controls
+                autoPlay
+                className="w-full h-full object-cover"
+                playsInline
+              />
+            </div>
+
+            <button
+              onClick={handleDownload}
+              className="w-full py-3 sm:py-4 px-6 rounded-2xl bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-600 text-white font-bold text-base sm:text-lg flex items-center justify-center space-x-2 sm:space-x-3 hover:opacity-90 transition-opacity active:scale-[0.98] shadow-lg shadow-pink-500/25"
+            >
+              <Download className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span>Download Video</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
